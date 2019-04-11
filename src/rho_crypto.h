@@ -91,12 +91,13 @@ enum rho_cipher_type {
 
     RHO_CIPHER_AES_256_CBC,
     RHO_CIPHER_AES_256_ECB,
-    RHO_RIPHER_AES_256_XTS
+    RHO_CIPHER_AES_256_XTS
 };
 
-#define RHO_CIPHER_KEYLENGTH_AES_128     16
-#define RHO_CIPHER_KEYLENGTH_AES_192     24
-#define RHO_CIPHER_KEYLENGTH_AES_256    32 
+#define RHO_CIPHER_KEYLENGTH_AES_128        16
+#define RHO_CIPHER_KEYLENGTH_AES_192        24
+#define RHO_CIPHER_KEYLENGTH_AES_256        32 
+#define RHO_CIPHER_KEYLENGTH_AES_256_XTS    64 
 
 /* iv length is the block size length, which is 16 for AES*/
 #define RHO_CIPHER_IVLENGTH_AES         16

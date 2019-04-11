@@ -2,6 +2,8 @@
 #define _RHO_H_
 
 #include "rho_array.h"
+#include "rho_base32.h"
+#include "rho_base64.h"
 #include "rho_binascii.h"
 #include "rho_bitmap.h"
 #include "rho_buf.h"

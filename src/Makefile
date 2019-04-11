@@ -67,6 +67,8 @@ INSTALL_LIB= $(INSTALL_TOP)/lib
 #----------------------------------------------------------
 TO_INC=  \
 	rho_array.h \
+	rho_base32.h \
+	rho_base64.h \
 	rho_binascii.h \
 	rho_bitmap.h \
 	rho_buf.h \
@@ -110,6 +112,8 @@ RHO_A= librho.a
 RHO_PIC_A= librho-pic.a
 
 RHO_CORE_OBJS= \
+		  rho_base32.o \
+		  rho_base64.o \
 		  rho_binascii.o \
 		  rho_bitmap.o \
 		  rho_buf.o \
@@ -218,6 +222,8 @@ echo:
 
 # DO NOT DELETE
 
+$(addprefix rho_base32.,o do): rho_base32.c rho_base32.h rho_log.h
+$(addprefix rho_base64.,o do): rho_base64.c rho_base64.h rho_log.h
 $(addprefix rho_binascii.,o do): rho_binascii.c rho_binascii.h rho_log.h
 $(addprefix rho_bitmap.,o do): rho_bitmap.c rho_bitmap.h rho_log.h rho_mem.h
 $(addprefix rho_buf.,o do): rho_buf.c rho_buf.h rho_log.h rho_mem.h

@@ -26,6 +26,8 @@ void * rhoL_memdup(const void *ptr, size_t size);
 #define rho_memset(buf, c, n) (void) memset(buf, c, n)
 #define rho_mem_equal(a, b, n) (memcmp(a, b, n) == 0)
 
+/* TODO: rho_memmem, rho_memstr */
+
 RHO_DECLS_END
 
 #endif /* _RHO_MEM_H_ */

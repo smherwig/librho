@@ -390,7 +390,7 @@ rho_cipher_type2method(enum rho_cipher_type type)
 
     case RHO_CIPHER_AES_256_CBC: return EVP_aes_256_cbc();
     case RHO_CIPHER_AES_256_ECB: return EVP_aes_256_ecb();
-    case RHO_RIPHER_AES_256_XTS: return EVP_aes_256_xts();
+    case RHO_CIPHER_AES_256_XTS: return EVP_aes_256_xts();
 
     default: rho_die("'%d' is not a valid rho_cipher_type", type);
     }
