@@ -97,7 +97,6 @@ TO_INC=  \
 	rho_sys.h \
 	rho_term.h \
 	rho_test.h \
-	rho_tftp.h \
 	rho_thread.h \
 	rho_time.h \
 	rho_timeout.h \
@@ -136,7 +135,6 @@ RHO_CORE_OBJS= \
 		  rho_sys.o \
 		  rho_term.o \
 		  rho_test.o \
-		  rho_tftp.o \
 		  rho_thread.o \
 		  rho_time.o \
 		  rho_timeout.o \
@@ -249,7 +247,6 @@ $(addprefix rho_str.,o do): rho_str.c rho_log.h rho_str.h
 $(addprefix rho_sys.,o do): rho_sys.c rho_log.h rho_sys.h
 $(addprefix rho_term.,o do): rho_term.c rho_log.h rho_term.h
 $(addprefix rho_test.,o do): rho_test.c rho_test.h
-$(addprefix rho_tftp.,o do): rho_tftp.c rho_buf.h rho_tftp.h
 $(addprefix rho_thread.,o do): rho_thread.c rho_log.h rho_thread.h
 $(addprefix rho_time.,o do): rho_time.c rho_log.h rho_time.h 
 $(addprefix rho_timeout.,o do): rho_timeout.c rho_mem.h rho_time.h rho_timeout.h
