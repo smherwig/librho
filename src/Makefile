@@ -71,6 +71,7 @@ TO_INC=  \
 	rho_base64.h \
 	rho_binascii.h \
 	rho_bitmap.h \
+	rho_bitops.h \
 	rho_buf.h \
 	rho_crypto.h \
 	rho_daemon.h \
