@@ -90,7 +90,6 @@ TO_INC=  \
 	rho_pem.h \
 	rho_queue.h \
 	rho_rand.h \
-	rho_rc4.h \
 	rho_sock.h \
 	rho_ssl.h \
 	rho_str.h \
@@ -128,7 +127,6 @@ RHO_CORE_OBJS= \
 		  rho_path.o \
 		  rho_pem.o \
 		  rho_rand.o \
-		  rho_rc4.o \
 		  rho_ssl_common.o \
 		  rho_sock.o \
 		  rho_str.o \
@@ -239,7 +237,6 @@ $(addprefix rho_mem.,o do): rho_mem.c rho_mem.h rho_log.h
 $(addprefix rho_path.,o do): rho_path.c rho_log.h rho_path.h
 $(addprefix rho_pem.,o do): rho_pem.c rho_mem.h rho_pem.h
 $(addprefix rho_rand.,o do): rho_rand.c rho_rand.h
-$(addprefix rho_rc4.,o do): rho_rc4.c rho_rc4.h rho_log.h
 $(addprefix rho_ssl_common.,o do): rho_ssl_common.c rho_mem.h rho_ssl.h
 $(addprefix rho_sock.,o do): rho_sock.c rho_buf.h rho_fd.h rho_log.h rho_mem.h \
 	rho_sock.h rho_timeout.h
