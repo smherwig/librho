@@ -2,6 +2,7 @@
 #define _RHO_H_
 
 #include "rho_array.h"
+#include "rho_atomic.h"
 #include "rho_base32.h"
 #include "rho_base64.h"
 #include "rho_binascii.h"
@@ -21,7 +22,6 @@
 #include "rho_pem.h"
 #include "rho_queue.h"
 #include "rho_rand.h"
-#include "rho_rc4.h"
 #include "rho_sock.h"
 #include "rho_ssl.h"
 #include "rho_str.h"

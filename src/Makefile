@@ -67,6 +67,7 @@ INSTALL_LIB= $(INSTALL_TOP)/lib
 #----------------------------------------------------------
 TO_INC=  \
 	rho_array.h \
+	rho_atomic.h \
 	rho_base32.h \
 	rho_base64.h \
 	rho_binascii.h \
