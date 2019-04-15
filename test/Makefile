@@ -13,7 +13,8 @@ all: $(TESTS)
 
 rho_array_test: rho_array_test.o rho_test.o $(LIBRHO)
 	$(CC) -o $@ $(CFLAGS) $^ $(LIBRHO) 
-rho_base32_test: rho_array_test.o rho_test.o $(LIBRHO)
+
+rho_base32_test: rho_base32_test.o rho_test.o $(LIBRHO)
 	$(CC) -o $@ $(CFLAGS) $^ $(LIBRHO) 
 
 rho_test.o: rho_test.c

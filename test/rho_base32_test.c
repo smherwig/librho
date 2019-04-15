@@ -39,7 +39,7 @@ test_encode(struct rho_test *test)
     while (d->bytes != NULL) {
         printf("encode (%d): \"%s\"\n", i, (const char *)d->bytes);
         printf("encoded_size: %zu\n", rho_base32_encoded_size(d->bytes_len));
-        RHO_ASSERT(rho_base32_encoded_size(d->bytes_len) == d->ascii_len);
+        RHO_TEST_ASSERT(rho_base32_encoded_size(d->bytes_len) == d->ascii_len);
         rho_base32_encode((const uint8_t *)d->bytes, d->bytes_len, encoded);
         RHO_TEST_ASSERT(rho_mem_equal(encoded, d->ascii, d->ascii_len));
         i++;
@@ -57,7 +57,7 @@ test_decode(struct rho_test *test)
     d = &(g_test_data[i]);
     while (d->bytes != NULL) {
         printf("decode (%d): \"%s\"\n", i, d->ascii);
-        RHO_ASSERT(rho_base32_decoded_size(d->ascii_len) == d->bytes_len);
+        RHO_TEST_ASSERT(rho_base32_decoded_size(d->ascii_len) == d->bytes_len);
         rho_base32_decode(d->ascii, d->ascii_len, decoded);
         RHO_TEST_ASSERT(rho_mem_equal(decoded, d->bytes, d->bytes_len));
         i++;
