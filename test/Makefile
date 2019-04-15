@@ -1,14 +1,27 @@
 LIBRHO= ../src/librho.a
-LIBRHO_HEADERS = ../src
+
+CFLAGS = -I../src -Wall -Werror -Wextra
 
 TESTS = \
-		rho_array_test
+		rho_array_test \
+		rho_base32_test
 
-rho_array_test: rho_array_test.c $(LIBRHO)
-	$(CC) -o $@ $^ -I $(LIBRHO_HEADERS) 
+OBJS = rho_test.o $(addsuffix .o,$(TESTS))
+
+
+all: $(TESTS)
+
+rho_array_test: rho_array_test.o rho_test.o $(LIBRHO)
+	$(CC) -o $@ $(CFLAGS) $^ $(LIBRHO) 
+rho_base32_test: rho_array_test.o rho_test.o $(LIBRHO)
+	$(CC) -o $@ $(CFLAGS) $^ $(LIBRHO) 
+
+rho_test.o: rho_test.c
+rho_array_test.o: rho_array_test.c
+rho_base32_test.o: rho_base32_test.c
 
 clean:
-	rm -f $(TESTS)
+	rm -f $(TESTS) $(OBJS)
 
 .PHONY: clean
 

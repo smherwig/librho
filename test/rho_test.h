@@ -12,6 +12,13 @@ struct rho_test {
     int nsuccess;
 };
 
+#define RHO_TEST_DECL(name, fn) \
+    {name, fn, 0, 0}
+
+#define RHO_TEST_SENTINEL \
+    {NULL, NULL, 0, 0}
+
+
 struct rho_test_suite_ops {
     int (*suite_init) (void);
     void (*suite_fini) (void);

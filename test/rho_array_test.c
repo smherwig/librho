@@ -4,6 +4,8 @@
 
 #include <rho.h>
 
+#include "rho_test.h"
+
 static void
 test_auto_int(struct rho_test *test)
 {
@@ -158,17 +160,20 @@ static struct rho_test_suite_ops suite_ops = {
 };
 
 static struct rho_test suite_tests[] = {
-    {"auto int", test_auto_int},
-    {"heap int", test_heap_int},
-    {"auto obj", test_auto_obj},
-    {"heap obj", test_heap_obj},
-    {NULL, NULL}
+    RHO_TEST_DECL("auto int", test_auto_int),
+    RHO_TEST_DECL("heap int", test_heap_int),
+    RHO_TEST_DECL("auto obj", test_auto_obj),
+    RHO_TEST_DECL("heap obj", test_heap_obj),
+    RHO_TEST_SENTINEL
 };
 
 int
 main(int argc, char *argv[])
 {
     struct rho_test_suite suite;
+
+    (void)argc;
+    (void)argv;
 
     RHO_TEST_SUITE_INIT(&suite, "array", &suite_ops, suite_tests);
     rho_test_suite_run(&suite);

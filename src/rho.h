@@ -27,7 +27,6 @@
 #include "rho_str.h"
 #include "rho_sys.h"
 #include "rho_term.h"
-#include "rho_test.h"
 #include "rho_thread.h"
 #include "rho_time.h"
 #include "rho_timeout.h"
