@@ -562,3 +562,32 @@ rho_str_rstrip(char *s, const char *removeset)
 done:
     return (s);
 } 
+
+/*
+ * dstsize is the full size of the dst buffer.  Room for NUL
+ * should be included in dstsize.
+ *
+ * Copies src to dst.  At most dstsize - 1 chars are copied.  Always NULL
+ * terminates (unless dstsize == 0);  Returns strlen(src).  If retval >=
+ * dst_size, truncation occurred.
+ *
+ * 0 1 2 3 4  dst_size = 5
+ * a b c d e 
+ *
+ * TODO: could be more efficient by computing strlen in situ
+ */
+size_t
+rho_strlcpy(char *dst, const char *src, size_t dst_size)
+{
+    size_t src_len = 0;
+
+    src_len = strlen(src);
+
+    if (dst_size != 0) {
+        while (dst_size-- != 1 && *src != '\0')
+            *dst++ = *src++;
+        *dst = '\0';
+    }
+
+    return (src_len);
+}
