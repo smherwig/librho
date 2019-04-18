@@ -100,9 +100,9 @@ void rho_buf_writeu32be(struct rho_buf *buf, uint32_t v);
 #define rho_buf_pread32be(buf, v) rho_buf_preadu32be(buf, (uint32_t *)(v))
 #define rho_buf_read32be(buf, v) rho_buf_readu32be(buf, (uint32_t *)(v))
 
-#define rho_buf_pwrite32be_at(buf, v, offset) rho_buf_pwriteu32be_at(buf, (uint32j_t)(v), offset)
-#define rho_buf_pwrite32be(buf, v) rho_buf_pwriteu32be(buf, (uint32j_t)(v))
-#define rho_buf_write32be(buf, v) rho_buf_writeu32be(buf, (uint32j_t)(v))
+#define rho_buf_pwrite32be_at(buf, v, offset) rho_buf_pwriteu32be_at(buf, (uint32_t)(v), offset)
+#define rho_buf_pwrite32be(buf, v) rho_buf_pwriteu32be(buf, (uint32_t)(v))
+#define rho_buf_write32be(buf, v) rho_buf_writeu32be(buf, (uint32_t)(v))
 
 int rho_buf_preadu32le_at(struct rho_buf *buf, uint32_t *v, off_t offset);
 int rho_buf_preadu32le(struct rho_buf *buf, uint32_t *v);
