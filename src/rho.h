@@ -7,6 +7,7 @@
 #include "rho_base64.h"
 #include "rho_binascii.h"
 #include "rho_bitmap.h"
+#include "rho_bitops.h"
 #include "rho_buf.h"
 #include "rho_crypto.h"
 #include "rho_daemon.h"

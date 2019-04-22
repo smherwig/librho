@@ -82,6 +82,8 @@ rho_atomic_fetch_add(volatile int *p, int v)
 	return v;
 }
 
+#define rho_atomic_fetch_inc(p) rho_atomic_fetch_add(p, 1)
+
 static inline void
 rho_atomic_and(volatile int *p, int v)
 {

@@ -99,16 +99,17 @@ enum rho_cipher_type {
 #define RHO_CIPHER_KEYLENGTH_AES_256        32 
 #define RHO_CIPHER_KEYLENGTH_AES_256_XTS    64 
 
-/* iv length is the block size length, which is 16 for AES*/
-#define RHO_CIPHER_IVLENGTH_AES         16
-#define RHO_CIPHER_IVLENGTH_AES_128     16
-#define RHO_CIPHER_IVLENGTH_AES_192     16
-#define RHO_CIPHER_IVLENGTH_AES_256     16
-
 #define RHO_CIPHER_BLOCKSIZE_AES        16
-#define RHO_CIPHER_BLOCKSIZE_AES_128    16
-#define RHO_CIPHER_BLOCKSIZE_AES_192    16
-#define RHO_CIPHER_BLOCKSIZE_AES_256    16
+#define RHO_CIPHER_BLOCKSIZE_AES_128    RHO_CIPHER_BLOCKSIZE_AES
+#define RHO_CIPHER_BLOCKSIZE_AES_192    RHO_CIPHER_BLOCKSIZE_AES
+#define RHO_CIPHER_BLOCKSIZE_AES_256    RHO_CIPHER_BLOCKSIZE_AES
+
+/* iv length is the block size length, which is 16 for AES*/
+#define RHO_CIPHER_IVLENGTH_AES         RHO_CIPHER_BLOCKSIZE_AES
+#define RHO_CIPHER_IVLENGTH_AES_128     RHO_CIPHER_BLOCKSIZE_AES
+#define RHO_CIPHER_IVLENGTH_AES_192     RHO_CIPHER_BLOCKSIZE_AES
+#define RHO_CIPHER_IVLENGTH_AES_256     RHO_CIPHER_BLOCKSIZE_AES
+
 
 struct rho_cipher * rho_cipher_create(enum rho_cipher_type type,
         enum rho_cipher_mode mode, bool padded, const void *key,
