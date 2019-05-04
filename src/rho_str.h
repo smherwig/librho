@@ -48,9 +48,9 @@ char * rho_str_rstrip_alloc(const char *s, const char *removeset);
 char * rho_str_rstrip(char *s, const char *removeset);
 
 size_t rho_strlcpy(char *dst, const char *src, size_t dst_size);
+size_t rho_strlcat(char *dst, const char *src, size_t dsize);
 
 /* TODO:
- *  rho_strlcat
  *  rho_str_splits s
  *  rho_str_join
  */
