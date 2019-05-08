@@ -30,6 +30,7 @@ void rhoL_getpeername_str(int fd, char *ipstr, size_t ipstr_len, uint16_t *port)
 
 void rhoL_setsockopt_reuseaddr(int fd, int yesno);
 void rhoL_setsockopt_ipv6only(int fd, int yesno);
+void rhoL_setsockopt_disable_nagle(int fd);
 
 int rho_sock_passfd(int sock, int fd);
 int rho_sock_recvfd(int s);

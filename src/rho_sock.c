@@ -6,6 +6,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 
 #include <errno.h>
 #include <fcntl.h>
@@ -231,6 +232,17 @@ rhoL_setsockopt_ipv6only(int fd, int yesno)
     error = setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &yesno, sizeof(int));
     if (error == -1)
         rho_errno_die(errno, "setsockopt(IPPROTO_IPV6, IPV6_V6ONLY, %d)", yesno);
+}
+
+void
+rhoL_setsockopt_disable_nagle(int fd)
+{
+    int error = 0;
+    int flag = 1;
+
+    error = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(int));
+    if (error == -1)
+        rho_errno_die(errno, "setsockopt(IPPROTO_TCP, TCP_NODELAY, 1)");
 }
 
 /*
