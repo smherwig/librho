@@ -6,26 +6,23 @@
 #include "rho_log.h"
 #include "rho_mem.h"
 
-#define RHO_BITMAP_NBYTESELEM 4 /* sizeof(uint32_t) */
-#define RHO_BITMAP_NBITSELEM 32
+#define RHO_BITMAP_ELEM_SIZE 4 /* sizeof(uint32_t) */
+#define RHO_BITMAP_ELEM_BITS 32
 
-#define RHO_BITMAP_MAXELEMS(maxbits) \
-    (((maxbits) / RHO_BITMAP_NBITSELEM) + \
-     (((maxbits) % RHO_BITMAP_NBITSELEM) ? 1 : 0))
-
-#define RHO_BITMAP_NBYTES(maxbits) \
-     (RHO_BITMAP_MAXELEMS((maxbits)) * RHO_BITMAP_NBYTESELEM)
-
+#define RHO_BITMAP_ELEMS(bitlen) \
+    (((bitlen) / RHO_BITMAP_ELEM_BITS) + \
+     (((bitlen) % RHO_BITMAP_ELEM_BITS) ? 1 : 0))
 
 struct rho_bitmap *
-rho_bitmap_create(bool resizeable, size_t maxbits)
+rho_bitmap_create(bool resizeable, size_t bitlen)
 {
     struct rho_bitmap *bitmap = NULL;
 
     bitmap = rhoL_zalloc(sizeof(*bitmap));
-    bitmap->a = rhoL_zalloc(RHO_BITMAP_NBYTES(maxbits));
+    bitmap->a = rhoL_mallocarray(RHO_BITMAP_ELEMS(bitlen),
+            RHO_BITMAP_ELEM_SIZE, RHO_MEM_ZERO);
     bitmap->resizeable = resizeable;
-    bitmap->maxbits = maxbits;
+    bitmap->bitlen = bitlen;
 
     return (bitmap);
 }
@@ -34,16 +31,10 @@ struct rho_bitmap *
 rho_bitmap_copy(struct rho_bitmap *bitmap)
 {
     struct rho_bitmap *newp = NULL;
-    size_t nbytes = 0;
 
-    newp = rhoL_zalloc(sizeof(*bitmap));
-
-    nbytes = RHO_BITMAP_NBYTES(bitmap->maxbits);
-    newp->a = rhoL_zalloc(RHO_BITMAP_NBYTES(nbytes));
-    memcpy(newp->a, bitmap->a, nbytes);
-
-    newp->resizeable = bitmap->resizeable;
-    newp->maxbits = bitmap->maxbits;
+    newp = rho_bitmap_create(bitmap->resizeable, bitmap->bitlen);
+    memcpy(newp->a, bitmap->a,
+            RHO_BITMAP_ELEMS(bitmap->bitlen) * RHO_BITMAP_ELEM_SIZE);
 
     return (newp);
 }
@@ -56,16 +47,31 @@ rho_bitmap_destroy(struct rho_bitmap *bitmap)
 }
 
 void
-rho_bitmap_resize(struct rho_bitmap *bitmap, size_t newmaxbits)
+rho_bitmap_resize(struct rho_bitmap *bitmap, size_t newbitlen)
 {
-    bitmap->a = rhoL_realloc(bitmap, RHO_BITMAP_NBYTES(newmaxbits));
-    bitmap->maxbits = newmaxbits;
+    size_t m = 0;
+    size_t n = 0;
+    size_t extra = 0;
+
+    RHO_ASSERT(newbitlen > bitmap->bitlen);
+
+    m = RHO_BITMAP_ELEMS(bitmap->bitlen);
+    n = RHO_BITMAP_ELEMS(newbitlen);
+    extra = n - m;
+
+    if (extra) {
+        bitmap->a = rhoL_reallocarray(bitmap->a, n, RHO_BITMAP_ELEM_SIZE, 0);
+        rho_memzero(((uint8_t *)bitmap->a) + (m * RHO_BITMAP_ELEM_SIZE),
+                extra * RHO_BITMAP_ELEM_SIZE);
+    }
+
+    bitmap->bitlen = newbitlen;
 }
 
 size_t 
 rho_bitmap_size(const struct rho_bitmap *bitmap)
 {
-    return (bitmap->maxbits);
+    return (bitmap->bitlen);
 }
 
 /* 0 on not set, 1 on set */
@@ -76,11 +82,11 @@ rho_bitmap_get(const struct rho_bitmap *bitmap, int i)
     int bit = 0;
 
     /* TODO: better overflow checking */
-    if (((size_t)i) > bitmap->maxbits)
-        rho_die("can't set bit %d; maxbits is %zu", i, bitmap->maxbits);
+    if (((size_t)i) >= bitmap->bitlen)
+        rho_die("can't get bit %d; bitlen is %zu", i, bitmap->bitlen);
 
-    elem = i / RHO_BITMAP_NBITSELEM; 
-    bit = i % RHO_BITMAP_NBITSELEM;
+    elem = i / RHO_BITMAP_ELEM_BITS; 
+    bit = i % RHO_BITMAP_ELEM_BITS;
 
     return (bitmap->a[elem] & (1 << bit)) ? 1 : 0;
 }
@@ -92,15 +98,15 @@ rho_bitmap_set(struct rho_bitmap *bitmap, int i)
     int elem = 0;
     int bit = 0;
 
-    if (((size_t)i) > bitmap->maxbits) {
+    if (((size_t)i) >= bitmap->bitlen) {
         if (bitmap->resizeable)
-            rho_bitmap_resize(bitmap, i);
+            rho_bitmap_resize(bitmap, i+1);
         else
-            rho_die("can't set bit %d; maxbits is %zu", i, bitmap->maxbits);
+            rho_die("can't set bit %d; bitlen is %zu", i, bitmap->bitlen);
     }
     
-    elem = i / RHO_BITMAP_NBITSELEM;
-    bit = i % RHO_BITMAP_NBITSELEM;
+    elem = i / RHO_BITMAP_ELEM_BITS;
+    bit = i % RHO_BITMAP_ELEM_BITS;
     bitmap->a[elem] |= 1 << bit;
 }
 
@@ -119,11 +125,11 @@ rho_bitmap_clear(struct rho_bitmap *bitmap, int i)
     int elem = 0;
     int bit = 0;
 
-    if (((size_t)i) > bitmap->maxbits)
-        rho_die("can't set bit %d; maxbits is %zu", i, bitmap->maxbits);
+    if (((size_t)i) >= bitmap->bitlen)
+        rho_die("can't clear bit %d; bitlen is %zu", i, bitmap->bitlen);
 
-    elem = i / RHO_BITMAP_NBITSELEM;
-    bit = i % RHO_BITMAP_NBITSELEM;
+    elem = i / RHO_BITMAP_ELEM_BITS;
+    bit = i % RHO_BITMAP_ELEM_BITS;
     bitmap->a[elem] &= ~(1 << bit);
 }
 
@@ -139,10 +145,9 @@ rho_bitmap_nclear(struct rho_bitmap *bitmap, int start, int stop)
 void
 rho_bitmap_clearall(struct rho_bitmap *bitmap)
 {
-    memset(bitmap->a, 0x00,
-            RHO_BITMAP_MAXELEMS(bitmap->maxbits) * RHO_BITMAP_NBYTESELEM);
+    rho_memzero((uint8_t *)bitmap->a,
+            RHO_BITMAP_ELEMS(bitmap->bitlen) * RHO_BITMAP_ELEM_SIZE);
 }
-
 
 /* find first set -- TODO: make faster */
 int
@@ -153,9 +158,9 @@ rho_bitmap_ffs(const struct rho_bitmap *bitmap)
     int bit = 0;
     bool found = false;
 
-    for (i = 0; i < bitmap->maxbits; i++) {
-        elem = i / RHO_BITMAP_NBITSELEM;
-        bit = i % RHO_BITMAP_NBITSELEM;
+    for (i = 0; i < bitmap->bitlen; i++) {
+        elem = i / RHO_BITMAP_ELEM_BITS;
+        bit = i % RHO_BITMAP_ELEM_BITS;
         if (bitmap->a[elem] & (1 << bit)) {
             found = true;
             break;
@@ -174,9 +179,9 @@ rho_bitmap_fls(const struct rho_bitmap *bitmap)
     int bit = 0;
     int last = -1;
 
-    for (i = 0; i < bitmap->maxbits; i++) {
-        elem = i / RHO_BITMAP_NBITSELEM;
-        bit = i % RHO_BITMAP_NBITSELEM;
+    for (i = 0; i < bitmap->bitlen; i++) {
+        elem = i / RHO_BITMAP_ELEM_BITS;
+        bit = i % RHO_BITMAP_ELEM_BITS;
         if (bitmap->a[elem] & (1 << bit))
             last = (int)i;
     }
@@ -193,9 +198,9 @@ rho_bitmap_ffc(const struct rho_bitmap *bitmap)
     int bit = 0;
     bool found = false;
 
-    for (i = 0; i < bitmap->maxbits; i++) {
-        elem = i / RHO_BITMAP_NBITSELEM;
-        bit = i % RHO_BITMAP_NBITSELEM;
+    for (i = 0; i < bitmap->bitlen; i++) {
+        elem = i / RHO_BITMAP_ELEM_BITS;
+        bit = i % RHO_BITMAP_ELEM_BITS;
         if (!(bitmap->a[elem] & (1 << bit))) {
             found = true;
             break;
@@ -214,9 +219,9 @@ rho_bitmap_flc(const struct rho_bitmap *bitmap)
     int bit = 0;
     int last = -1;
 
-    for (i = 0; i < bitmap->maxbits; i++) {
-        elem = i / RHO_BITMAP_NBITSELEM;
-        bit = i % RHO_BITMAP_NBITSELEM;
+    for (i = 0; i < bitmap->bitlen; i++) {
+        elem = i / RHO_BITMAP_ELEM_BITS;
+        bit = i % RHO_BITMAP_ELEM_BITS;
         if (!(bitmap->a[elem] & (1 << bit)))
             last = (int)i;
     }

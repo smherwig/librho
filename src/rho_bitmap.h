@@ -11,15 +11,15 @@ RHO_DECLS_BEGIN
 /* only expand on sets, not gets */
 struct rho_bitmap {
     bool resizeable;
-    size_t maxbits;
+    size_t bitlen;
     uint32_t *a;
 };
 
-struct rho_bitmap * rho_bitmap_create(bool resizeable, size_t maxbits);
+struct rho_bitmap * rho_bitmap_create(bool resizeable, size_t bitlen);
 struct rho_bitmap * rho_bitmap_copy(struct rho_bitmap *bitmap);
 void rho_bitmap_destroy(struct rho_bitmap *bitmap);
 
-void rho_bitmap_resize(struct rho_bitmap *bitmap, size_t newmaxbits);
+void rho_bitmap_resize(struct rho_bitmap *bitmap, size_t newbitlen);
 
 size_t rho_bitmap_size(const struct rho_bitmap *bitmap);
 
@@ -45,7 +45,7 @@ int rho_bitmap_flc(const struct rho_bitmap *bitmap);
 #define RHO_BITMAP_FOREACH(i, val, bitmap) \
     for ( \
             (i) = 0, (val) = rho_bitmap_get((bitmap), (i)); \
-            ((i) < (bitmap)->maxbits); \
+            ((i) < (bitmap)->bitlen); \
             (i)++,   (val) = rho_bitmap_get((bitmap), (i)) \
         )
 
