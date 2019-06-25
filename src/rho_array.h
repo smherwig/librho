@@ -5,8 +5,8 @@
 
 #include "rho_decls.h"
 
-#include "rho_log.h"    /* rho_die */
-#include "rho_mem.h"    /* rhoL_zalloc, rhoL_free, rhoL_reallocarray */
+#include "rho_log.h"
+#include "rho_mem.h"
 
 RHO_DECLS_BEGIN
 
@@ -65,12 +65,21 @@ RHO_DECLS_BEGIN
         (val) = (a)->elems[i]; \
     } while (0)
 
+/* 
+ * the pragma is because, in the case of i=0, GCC will complain about 0 > asize,
+ * namely: "comparison of unsigned expression < 0 is always false".  I
+ * guard against this condition by the i != 0 check in the if statement, but GCC isn't
+ * smart enough to take this into account.
+ */
 #define RHO_ARRAY_INSERT(a, i, val) \
     do { \
         size_t j = 0; \
         size_t asize = (a)->size; \
+_Pragma("GCC diagnostic push") \
+_Pragma("GCC diagnostic ignored \"-Wtype-limits\"") \
         if (((i) != 0) && ((i) > asize)) \
             rho_die("RHO_ARRAY_INSERT: index (%zu) > array size (%zu)\n", (size_t)i, asize); \
+_Pragma("GCC diagnostic pop") \
         if (asize == (a)->cap) { \
             (a)->cap += RHO_ARRAY_EXTENT; \
             (a)->elems = rhoL_reallocarray((a)->elems, (a)->cap, (a)->elem_size, 0); \
