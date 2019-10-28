@@ -21,7 +21,7 @@ void rho_bitmap_destroy(struct rho_bitmap *bitmap);
 
 void rho_bitmap_resize(struct rho_bitmap *bitmap, size_t newbitlen);
 
-size_t rho_bitmap_size(const struct rho_bitmap *bitmap);
+#define rho_bitmap_size(bitmap) (bitmap)->bitlen
 
 int rho_bitmap_get(const struct rho_bitmap *bitmap, int i);
 void rho_bitmap_set(struct rho_bitmap *bitmap, int i);
