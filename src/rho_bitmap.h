@@ -37,32 +37,6 @@ int rho_bitmap_fls(const struct rho_bitmap *bitmap);
 int rho_bitmap_ffc(const struct rho_bitmap *bitmap);
 int rho_bitmap_flc(const struct rho_bitmap *bitmap);
 
-/* 
- * FIXME: this is wrong; there's no clean way to do foreach_set, so just do
- * foreach (RHO_BITMAP_FOREACH(i, val, bitmap)), and have the client craft
- * the body of the for-loop to do a continue on unset values
- */
-#define RHO_BITMAP_FOREACH(i, val, bitmap) \
-    for ( \
-            (i) = 0, (val) = rho_bitmap_get((bitmap), (i)); \
-            ((i) < (bitmap)->bitlen); \
-            (i)++,   (val) = rho_bitmap_get((bitmap), (i)) \
-        )
-
-/* TODO: 
- *
- * setall
- * toggle
- * ntoggle
- *
- * anyclr?
- * allclr?
- * anyset?
- * allset?
- *
- * operations on two bitmaps 
- */
-
 RHO_DECLS_END
 
 #endif /* ! _RHO_BITMAP_H_ */
