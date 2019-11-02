@@ -14,6 +14,11 @@ The library assumes a POSIX environment, with a few platform-specific features.
 I try to ensure that librho works on Linux, macOS, FreeBSD, NetBSD, and
 OpenBSD, but only regularly use the library on Linux.
 
+Some source files are wholey or partly from other projects.  For instance,
+`rho_atomic.h` is mostly based on musl libc's atomic functions, and
+`rho_queue.h` is from OpenBSD.  In such situtions, the source file
+contains the appropriate copyright notice.
+
 
 Building and Installing
 =======================
