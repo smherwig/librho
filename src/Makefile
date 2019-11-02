@@ -29,7 +29,7 @@ ifeq ($(PLAT),netbsd)
 	SYSCFLAGS= -DRHO_PLAT_NETBSD
 endif
 ifeq ($(PLAT),openbsd)
-	SYSCFLAGS= -DRHO_PLAT_NETBSD
+	SYSCFLAGS= -DRHO_PLAT_OPENBSD
 endif
 
 # the -Wno-deprecated-declarations is for OpenSSL
