@@ -26,7 +26,7 @@ make
 ```
 
 The build creates two libraries: `librho.a`, and a position-independent
-version, `librho-pic.a'; the former is intended for statically linking into an
+version, `librho-pic.a`; the former is for statically linking into an
 executable; the latter for statically linking into a shared object.
 
 
@@ -44,8 +44,8 @@ make install INSTALL_TOP=/home/smherwig
 ```
 
 When installed, the headers are placed under a `rho` directory (in the above
-example, `/home/smherwig/include/rho/`); and the header `rho/rho.h`
-includes all other rho headers.
+example, `/home/smherwig/include/rho/`); with the header file `rho/rho.h`
+including all other rho headers.
 
 
 The `src/Makefile` allows for adjusting various options, such as the platform
@@ -63,7 +63,7 @@ make
 ```
 
 This creates a set of executables, with each executable testing a specific
-module.  For intstance, `rho_str_test` tests the functions in `src/rho_str.c`.
+module.  For instance, `rho_str_test` tests the functions in `src/rho_str.c`.
 
 
 
