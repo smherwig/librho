@@ -60,7 +60,7 @@ The `src/Makefile` allows for adjusting various options, such as the platform
 Testing
 =======
 A fairly incomplete set of unit tests exists under `test`.  To build the unit
-tests enter
+tests, enter:
 
 ```
 cd test
