@@ -6,7 +6,7 @@ CFLAGS = -I../src -Wall -Werror -Wextra
 TESTS = \
 		rho_array_test \
 		rho_bitmap_test \
-		rho_bitops_tes \
+		rho_bitops_test \
 		rho_base32_test \
 		rho_str_test
 
