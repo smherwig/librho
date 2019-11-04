@@ -20,8 +20,8 @@ Some source files are wholey or partly from other projects.  For instance,
 contains the appropriate copyright notice.
 
 
-Building and Installing
-=======================
+<a name="building"/> Building and Installing
+============================================
 To build librho, enter:
 
 ```
@@ -57,8 +57,8 @@ The `src/Makefile` allows for adjusting various options, such as the platform
 (e.g, Linux, FreeBSD) and cryptographic provider (openssl or bearssl).
 
 
-Testing
-=======
+<a name="testing"/> Testing
+===========================
 A fairly incomplete set of unit tests exists under `test`.  To build the unit
 tests, enter:
 
@@ -69,6 +69,3 @@ make
 
 This creates a set of executables, with each executable testing a specific
 module.  For instance, `rho_str_test` tests the functions in `src/rho_str.c`.
-
-
-
