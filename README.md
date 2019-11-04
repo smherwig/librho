@@ -63,7 +63,7 @@ A fairly incomplete set of unit tests exists under `test`.  To build the unit
 tests, enter:
 
 ```
-cd test
+cd librho/test
 make
 ```
 
