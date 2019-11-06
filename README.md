@@ -1,6 +1,6 @@
 Overview
 ========
-librho is utility library that provides:
+librho is a utility library that provides:
 
 - wrappers for C library functions for easier error handling
 - implementations of common data structures
@@ -8,7 +8,7 @@ librho is utility library that provides:
 - a small event framework, along the lines of libevent
 - a small unit test framework, along the lines of CUnit
 - an interface for crypto and SSL that abstracts the underlying
-  cryptography provider.
+  cryptographic provider.
 
 The library assumes a POSIX environment, with a few platform-specific features.
 I try to ensure that librho works on Linux, macOS, FreeBSD, NetBSD, and
@@ -25,6 +25,7 @@ contains the appropriate copyright notice.
 To build librho, enter:
 
 ```
+cd ~/src
 git clone https:/github.com/smherwig/librho
 cd librho/src
 make
@@ -42,14 +43,14 @@ make install
 ```
 
 By default, the librho libraries and headers are installed to `/usr/local/`.
-To install to a different, location, say, `/home/smherwig`, enter
+To install to a different location, say, the user's home direcory, enter:
 
 ```
-make install INSTALL_TOP=/home/smherwig
+make install INSTALL_TOP=$HOME
 ```
 
 When installed, the headers are placed under a `rho` directory (in the above
-example, `/home/smherwig/include/rho/`); with the header file `rho/rho.h`
+example, `$HOME/include/rho/`); with the header file `rho/rho.h`
 including all other rho headers.
 
 
